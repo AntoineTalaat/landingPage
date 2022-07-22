@@ -74,6 +74,8 @@ section {
     display: inline-block;
 }
 
+
+
 .navbar__menu .menu__link {
     /*remove later*/
 
@@ -91,6 +93,12 @@ section {
     color: #fff;
     transition: ease 0.3s all;
 }
+
+.navbar__menu .active{
+    background: #333;
+    color: #fff;
+}
+
 
 /* Header Styles */
 .page__header {

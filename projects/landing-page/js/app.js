@@ -22,6 +22,9 @@
  * Define Global Variables
  * 
 */
+let sections = document.getElementsByTagName('section')
+let navBar = document.getElementById('navbar__list')
+let docFrag = new DocumentFragment()
 
 
 /**
@@ -29,28 +32,19 @@
  * Start Helper Functions
  * 
 */
-var sections = document.getElementsByTagName('section')
-var navBar = document.getElementById('navbar__list')
-var docFrag = new DocumentFragment()
-
-
-/**
- * End Helper Functions
- * Begin Main Functions
- * 
-*/
-
 
 function onClickingNav(e){
     const el = document.getElementById(e.target.getAttribute('data-link'))
     const scrollOff = el.offsetTop
+    // Scroll to anchor ID using scrollTO event
     scroll({
         top:scrollOff,
         behavior:"smooth"
     })
 }
 
-
+// Set sections as active
+// Add class 'active' to section when near top of viewport
 function onScrolling(){
     let current = sections[0]
     let min = sections[0].offsetTop
@@ -61,30 +55,23 @@ function onScrolling(){
             current=element
         }
     };
-
     const prevActive = document.querySelector('.your-active-class')
     prevActive.classList.remove('your-active-class')
     current.classList.add('your-active-class')
+
+
+    const prevActiveLink = document.getElementById('l'+prevActive.getAttribute('id'))
+    prevActiveLink.classList.remove('active')
+    let navItem = document.getElementById('l'+current.getAttribute('id'))
+    navItem.classList.add('active')
 }
+/**
+ * End Helper Functions
+ * Begin Main Functions
+ * 
+*/
 
 // build the nav
-for(let sec of sections){
-    let newEl = document.createElement('li')
-    newEl.textContent=sec.getAttribute('data-nav')
-    newEl.setAttribute('data-link',sec.getAttribute('id'))
-    newEl.style.cssText='display:inline-block'
-    newEl.classList.add('menu__link')
-    docFrag.appendChild(newEl);
-}
-navBar.appendChild(docFrag)
-navBar.addEventListener('click',onClickingNav)
-document.addEventListener('scroll',onScrolling)
-console.log('done')
-
-// Add class 'active' to section when near top of viewport
-
-
-// Scroll to anchor ID using scrollTO event
 
 
 /**
@@ -96,7 +83,20 @@ console.log('done')
 // Build menu 
 
 // Scroll to section on link click
+for(let sec of sections){
+    let newEl = document.createElement('li')
+    newEl.textContent=sec.getAttribute('data-nav')
+    newEl.setAttribute('data-link',sec.getAttribute('id'))
+    newEl.setAttribute('id','l'+sec.getAttribute('id'))  
+    newEl.style.cssText='display:inline-block'
+    newEl.classList.add('menu__link')
+    docFrag.appendChild(newEl);
+}
 
-// Set sections as active
+
+navBar.appendChild(docFrag)
+navBar.addEventListener('click',onClickingNav)
+document.addEventListener('scroll',onScrolling)
+
 
 
